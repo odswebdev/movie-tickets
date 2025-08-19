@@ -16,12 +16,19 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const login = () => {
+  /*  const login = () => {
     setIsAuthenticated(true);
     localStorage.setItem("isAuthenticated", "true");
     navigate("/");
     const st = localStorage.getItem("isAuthenticated");
     console.log(st);
+  }; */
+
+  const login = async () => {
+    setIsAuthenticated(true);
+    localStorage.setItem("isAuthenticated", "true");
+    navigate("/");
+    return Promise.resolve(); // или просто: return;
   };
 
   const logout = () => {

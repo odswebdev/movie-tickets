@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 const backdrop = {
   hidden: { opacity: 0 },
@@ -76,9 +77,12 @@ const LoginPopup = ({ isOpen, onClose }) => {
 
               <p className="text-center text-[16px] text-[#bebebf] mt-2">
                 Don’t Have An Account?{" "}
-                <span className="text-[16px] text-[#1de782] cursor-pointer">
+                <Link
+                  to="/register"
+                  className="text-[16px] text-[#1de782] cursor-pointer"
+                >
                   Register Here
-                </span>
+                </Link>
               </p>
             </form>
           </motion.div>

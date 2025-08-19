@@ -1,9 +1,25 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useSession } from "../context/SessionContext";
 
 export default function Home() {
   const { isAuthenticated, logout } = useAuth();
+  const { setSession } = useSession();
+  const navigate = useNavigate();
+  useEffect(() => {
+    document.title = "Movie Tickets";
+  }, []);
+
+  const movies = [
+    { title: "Furiosa", src: "furiosa.png" },
+    { title: "If", src: "if.png" },
+    { title: "Civil War", src: "civil-war.png" },
+    { title: "Kingdom Planet Apes", src: "planet-apes.png" },
+    { title: "Dune", src: "dune.png" },
+    { title: "Sheriff", src: "sheriff.png" },
+  ];
+
   return (
     <div className="relative w-full min-h-screen bg-[#000] overflow-hidden">
       {/* Зеленое свечение слева снизу */}
@@ -18,14 +34,18 @@ export default function Home() {
         <header className="flex justify-between items-center px-8 pt-[1.5rem] pb-10">
           {/* Лого */}
           <Link to="/">
-            <img src="../src/assets/logo.png" alt="Logo" className="h-10" />
+            <img
+              src="/movie-tickets/assets/logo.png"
+              alt="Logo"
+              className="h-10"
+            />
           </Link>
 
           {/* Кнопки */}
           <div className="flex gap-[1rem]">
             {isAuthenticated ? (
               <>
-                <Link to="/my-ticket">
+                <Link to="/upcomingticket">
                   <button className="text-[18px] text-[#FFF] font-medium w-[120px] h-[48px] rounded-[10px] bg-transparent border border-white hover:bg-white hover:text-black transition cursor-pointer">
                     My Ticket
                   </button>
@@ -61,24 +81,24 @@ export default function Home() {
           </h1>
 
           <div className="flex flex-wrap justify-center gap-[50px]">
-            {[
-              { title: "Furiosa", src: "furiosa.png" },
-              { title: "If", src: "if.png" },
-              { title: "Civil War", src: "civil-war.png" },
-              { title: "Kingdom Planet Apes", src: "planet-apes.png" },
-              { title: "Dune", src: "dune.png" },
-              { title: "Sheriff", src: "sheriff.png" },
-            ].map((movie, idx) => (
-              <Link to="/theater">
-                <div key={idx} className="cursor-pointer">
-                  <img
-                    className="rounded-[20px] mb-[15px] h-auto"
-                    src={`../src/assets/${movie.src}`}
-                    alt={movie.title}
-                  />
-                  <div className="text-[24px] text-[#FFF] text-center font-[600]">
-                    {movie.title}
-                  </div>
+            {movies.map((movie, idx) => (
+              <Link
+                key={idx}
+                to="/theater"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setSession(movie);
+                  navigate("/theater");
+                }}
+                className="cursor-pointer"
+              >
+                <img
+                  className="rounded-[20px] mb-[15px] h-auto"
+                  src={`/movie-tickets/assets/${movie.src}`}
+                  alt={movie.title}
+                />
+                <div className="text-[24px] text-[#FFF] text-center font-[600]">
+                  {movie.title}
                 </div>
               </Link>
             ))}

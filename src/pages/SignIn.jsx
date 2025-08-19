@@ -1,6 +1,16 @@
 import React from "react";
+import { useAuth } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 const SignIn = () => {
+  const { login } = useAuth(); // импортируем login
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    login(); // Вход
+    onClose(); // Закрыть попап
+  };
+
   return (
     <div className="grid grid-cols-2 min-h-screen">
       {/* Левая колонка с фоном */}
@@ -15,9 +25,12 @@ const SignIn = () => {
         <div className="relative z-10 flex flex-col">
           {/* Левая колонка */}
           <div className="flex flex-wrap justify-between items-center py-[40px] px-[50px]">
-            <a href="/" className="mb-[25rem]">
-              <img src="../src/assets/logo.png" alt="Logo" />
-            </a>
+            <img
+              src="../src/assets/logo.png"
+              alt="Logo"
+              className="mb-[25rem]"
+            />
+
             <div className="text-[36px] md:text-[56px] text-[#FFF] font-[300] italic max-w-[596px] break-words">
               Welcome. Begin your cinematic adventure now with our ticketing
               platform!
@@ -32,7 +45,7 @@ const SignIn = () => {
           <div className="text-[30px] text-[#101012] font-[600] mb-[32px]">
             Create an account
           </div>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="mb-[24px]">
               <label
                 className="block text-[16px] text-[#5a5a5d] capitalize mb-[12px]"
@@ -66,19 +79,22 @@ const SignIn = () => {
                 placeholder="Confirm your password"
               />
             </div>
-            <button className="text-[16px] text-[#FFF] font-[600] w-full h-[48px] rounded-[8px] bg-[#1de782] border-transparent cursor-pointer mb-[24px]">
+            <button
+              type="submit"
+              className="text-[16px] text-[#FFF] font-[600] w-full h-[48px] rounded-[8px] bg-[#1de782] border-transparent cursor-pointer mb-[24px]"
+            >
               Create account
             </button>
             <div className="flex justify-center gap-[8px]">
               <span className="text-[16px] text-[#bebebf] capitalize">
                 Already have an account?
               </span>
-              <a
+              <Link
                 className="text-[16px] text-[#1de782] capitalize"
-                href="/login"
+                to="/login"
               >
                 Log in
-              </a>
+              </Link>
             </div>
           </form>
         </div>
